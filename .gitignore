@@ -1,0 +1,38 @@
+# Local environment variables
+.env
+
+# Python byte-compiled files 
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments 
+
+venv/
+.venv/
+env/
+.env
+
+# IDE and Editor directories 
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files 
+
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+# Testing caches 
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Any custom debug output files
+*.log

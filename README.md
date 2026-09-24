@@ -11,16 +11,6 @@ git clone git@github.com:Sharif15/MiniLang.git
 cd MiniLang
 ```
 
-## Setting up the python environmnet 
-
-Set up your vertual environment using this command : 
-
-```bash
-python -m venv .env
-
-source .env/bin/activate
-```
-
 ## Branching 
 
 To start wroking create your own branch 
@@ -42,7 +32,7 @@ git checkout your-name
 
 and all other git operation is the same 
 
-# Warning 
+# Warning !!!
 
 Be sure to pull the latest branch often before you start your work to stay uptodate
 

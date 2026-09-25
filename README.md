@@ -2,6 +2,7 @@
 
 ## Team member
 Sharif Islam <br> 
+Angel Castillo <br> 
 
 ## Getting started
 

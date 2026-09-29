@@ -6,7 +6,7 @@ Angel Castillo <br>
 
 ## Getting started
 
-To begin with the project start by making a cone of the repository.
+To begin with the project start by making a clone of the repository.
 
 ```bash
 # Cloning Repository

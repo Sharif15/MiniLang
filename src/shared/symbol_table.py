@@ -5,16 +5,30 @@ class SymbolTable:
         
     def declare_variable(self, name, var_type):
         # Adds a variable to the table; tracks name, type, and initialized=False
-        pass
-        
+        if name in self.symbols:
+            raise ValueError(f"Variable '{name}' is already declared.")
+
+        self.symbols[name] = { "type": var_type, "initialized": False, "value": None }
+
     def assign_value(self, name, value):
         # Updates the value and sets initialized=True
-        pass
+        if name not in self.symbols:
+            raise ValueError(f"Semantic Error: Variable '{name}' is not declared.")
+
+        self.symbols[name]["value"] = value
+        self.symbols[name]["initialized"] = True
         
     def get_variable(self, name):
         # Returns the variable's information (type, value, initialized status)
-        pass
+        if name not in self.symbols:
+                    raise ValueError(f"Semantic Error: Variable '{name}' is not declared.")
+        return self.symbols[name]
         
     def display_table(self):
-        # Used for the debug/display mode to print the current state
-        pass
+        print(f"{'Name':<15} {'Type':<8} {'Initialized':<13} {'Value'}")
+
+        for name, info in self.symbols.items():
+            print(
+                f"{name:<15} {info['type']:<8} "
+                f"{str(info['initialized']):<13} {info['value']}"
+            )

@@ -3,6 +3,7 @@
 ## Team member
 Sharif Islam <br> 
 Angel Castillo <br> 
+Wendy Hielo <br>
 
 ## Getting started
 

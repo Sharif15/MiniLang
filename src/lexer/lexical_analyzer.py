@@ -1,3 +1,6 @@
+# Error handler; Raise LexicalError whenever a MiniLang error is encountered.
+from src.shared.errors import LexicalError
+
 class Token:
     def __init__(self, type, value, line_number):
         self.type = type

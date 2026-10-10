@@ -1,3 +1,6 @@
+# Error handler; Raise MiniLangSyntaxError whenever a MiniLang error is encountered.
+from src.shared.errors import MiniLangSyntaxError
+
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens

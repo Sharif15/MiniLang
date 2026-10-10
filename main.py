@@ -1,8 +1,10 @@
 import sys
 import argparse
+
 from src.lexer.lexical_analyzer import LexicalAnalyzer
 from src.parser.parser import Parser
 from src.shared.symbol_table import SymbolTable
+from src.shared.errors import MiniLangError
 from src.semantics.semantic_analyzer import SemanticAnalyzer
 from src.interpreter.interpreter import Interpreter
 
@@ -40,6 +42,11 @@ def main():
         semantic_analyzer = SemanticAnalyzer(symbol_table)
         semantic_analyzer.analyze(ast_root)
 
+            # Symantic analysis uses initialized flags to determine whether
+            # reads were legal. We reset those flags before actual execution
+            # so that the interpreter can establish true runtime state.
+        symbol_table.reset_runtime_state() 
+
         # 6. Interpretation / Execution
         if args.debug:
             print("\n--- PROGRAM OUTPUT ---")
@@ -54,6 +61,12 @@ def main():
     except FileNotFoundError:
         print(f"Error: Could not find file '{args.source_file}'")
         sys.exit(1)
+
+    # MiniLang Error Handler:
+    except MiniLangError as error:
+        print(error)
+        sys.exit(1)
+        
     except Exception as e:
         print(e)
         sys.exit(1)

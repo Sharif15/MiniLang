@@ -1,7 +1,4 @@
 from src.shared.errors import SemanticError
-
-# Must import AST node classes; Please update if the ast_nodes are stored elsewhere!
-# Also update if the names for your classes are different from what they are here!
 from src.parser.ast_nodes import (
     Program,
     Declaration,

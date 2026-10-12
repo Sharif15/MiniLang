@@ -5,6 +5,7 @@ from src.lexer.lexical_analyzer import LexicalAnalyzer
 from src.parser.parser import Parser
 from src.shared.symbol_table import SymbolTable
 from src.shared.errors import MiniLangError
+from src.shared.debug import DebugDisplay
 from src.semantics.semantic_analyzer import SemanticAnalyzer
 from src.interpreter.interpreter import Interpreter
 
@@ -15,6 +16,8 @@ def main():
     arg_parser.add_argument("--debug", action="store_true", help="Enable debug/display mode")
     args = arg_parser.parse_args()
 
+    debug_display = DebugDisplay()
+
     try:
         # 1. Read source code
         with open(args.source_file, 'r') as file:
@@ -23,17 +26,18 @@ def main():
         # 2. Lexical Analysis
         lexer = LexicalAnalyzer(source_code)
         tokens = lexer.tokenize()
+        
+            # Debug/Display Mode; Tokens:
         if args.debug:
-            print("--- TOKENS ---")
-            for token in tokens:
-                print(f"{token.type}: {token.value}")
+            debug_display.display_tokens(tokens)
 
         # 3. Syntax Analysis (Parsing)
         parser = Parser(tokens)
         ast_root = parser.parse_program()
+
+            # Debug/Display Mode; AST:
         if args.debug:
-            print("\n--- AST ---")
-            # Call your AST print/display function here
+            debug_display.display_ast(ast_root)
 
         # 4. Shared Symbol Table
         symbol_table = SymbolTable()
@@ -47,16 +51,18 @@ def main():
             # so that the interpreter can establish true runtime state.
         symbol_table.reset_runtime_state() 
 
-        # 6. Interpretation / Execution
-        if args.debug:
-            print("\n--- PROGRAM OUTPUT ---")
-            
+        # 6. Interpretation / Execution 
         interpreter = Interpreter(symbol_table)
         interpreter.execute(ast_root)
 
+            # Debug/Display Mode; Program Output & Symbol Table:
         if args.debug:
-            print("\n--- SYMBOL TABLE ---")
-            symbol_table.display_table()
+            debug_display.display_symbol_table(symbol_table)
+            debug_display.display_output(interpreter.output)
+        else: # Print normal program execution output for non-debug mode:
+            for value in interpreter.output:
+                print(value)
+
 
     except FileNotFoundError:
         print(f"Error: Could not find file '{args.source_file}'")

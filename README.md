@@ -45,3 +45,11 @@ Be sure to pull the latest branch often before you start your work to stay uptod
 ```bash
 git pull origin main
 ```
+
+# Testing 
+
+To run the given test suite use the following command: 
+
+```bash
+python -m unittest tests.test_interpreter
+```

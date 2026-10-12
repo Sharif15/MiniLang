@@ -1,7 +1,4 @@
 from src.shared.errors import MiniLangRuntimeError
-
-# Must import AST node classes; Please update if the ast_nodes are stored elsewhere!
-# Also update if the names for your classes are different from what they are here!
 from src.parser.ast_nodes import (
     Program,
     Declaration,
@@ -17,8 +14,7 @@ class Interpreter:
     def __init__(self, symbol_table):
         self.symbol_table = symbol_table
 
-        # MiniLang print output gets stored here
-        # This is for the debug mode
+        # MiniLang print output gets stored here:
         self.output = []
 
 
@@ -90,11 +86,8 @@ class Interpreter:
         """
         value = self.evaluate_expression(node.expression)
 
-        # Add to output array for debugging:
+        # Add to output array:
         self.output.append(value)
-
-        # Normal program output:
-        print(value)
 
 
     def evaluate_expression(self, node) -> int | float:

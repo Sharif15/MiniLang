@@ -75,7 +75,7 @@ class LexicalAnalyzer:
         if char.isalpha() or char == "_": 
             start = self.position 
             
-            while self._peek() is not None and ( self._peek().isalnum() or self._peek() == "_" ): 
+            while self._peak() is not None and ( self._peak().isalnum() or self._peak() == "_" ): 
                 self._advance() 
                 
             value = self.source_code[start:self.position] 
@@ -85,19 +85,19 @@ class LexicalAnalyzer:
         # Numeric literals 
         if char.isdigit():
             start = self.position
-            while ( self._peek() is not None and self._peek().isdigit() ):
+            while ( self._peak() is not None and self._peak().isdigit() ):
                 self._advance() 
                 
             token_type = "INTEGER_LITERAL" 
-            if self._peek() == ".": 
+            if self._peak() == ".": 
                 self._advance() 
             
-                if self._peek() is None or not self._peek().isdigit() :
+                if self._peak() is None or not self._peak().isdigit() :
                     
                     invalid_value = self.source_code[ start:self.position ]
                     raise LexicalError(line, f"Invalid real literal '{invalid_value}'.") 
                 
-                while ( self._peek() is not None and self._peek().isdigit() ): 
+                while ( self._peak() is not None and self._peak().isdigit() ): 
                     self._advance() 
                     
                 token_type = "REAL_LITERAL" 

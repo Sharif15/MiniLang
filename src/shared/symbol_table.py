@@ -20,7 +20,7 @@ class SymbolTable:
 
     def get_variable(self, name):
         # Returns the variable's information (type, value, initialized status)
-        return self.symbols[name]
+        return self.symbols.get(name)
 
     def display_table(self):
         print(f"{'Name':<15} {'Type':<8} {'Initialized':<13} {'Value'}")
@@ -32,7 +32,7 @@ class SymbolTable:
             )
 
     
-    def mark_initalized(self, name):
+    def mark_initialized(self, name):
         """
         Marks a declared variable as initialized without assigning a runtime value.
 

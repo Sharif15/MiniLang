@@ -1,6 +1,8 @@
 import unittest
 import io
 import sys
+from pathlib import Path
+
 
 from src.lexer.lexical_analyzer import LexicalAnalyzer
 from src.parser.parser import Parser
@@ -82,6 +84,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Lexical Error", error)
+        self.assertIn("@", error)
 
     def test_06_syntax_error(self):
         # Covers: Syntax error
@@ -130,6 +133,15 @@ class TestMiniLangInterpreter(unittest.TestCase):
         self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Semantic Error", error)
+
+    def test_12_basic_program_file(self):
+        source_path = Path(__file__).parent / "test01_basic.mini"
+        source = source_path.read_text(encoding="utf-8")
+
+        output, error = self.run_interpreter(source)
+
+        self.assertIsNone(error)
+        self.assertEqual(output, "50")
 
 if __name__ == '__main__':
     unittest.main()

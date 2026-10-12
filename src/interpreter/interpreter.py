@@ -148,7 +148,12 @@ class Interpreter:
                     "ZeroDivisionError"
                 )
 
-            return left_value / right_value 
+            # Perform integer divsion if both operands are int:
+            if isinstance(left_value, int) and isinstance(right_value, int):
+                return left_value // right_value
+
+            # Perform true division otherwise:
+            return left_value / right_value
 
         else:
             raise MiniLangRuntimeError(

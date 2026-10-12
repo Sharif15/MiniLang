@@ -31,7 +31,7 @@ python -m unittest tests.test_interpreter
 To run the interpreter on a MiniLang program file, use the following command format:
 
 ```bash
-python -m main.py [--debug] <path_to_your_source_code_file>
+python main.py [--debug] <path_to_your_source_code_file>
 ```
 
 The `--debug` flag enables the Debug/Display mode.

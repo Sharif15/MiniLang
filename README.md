@@ -16,7 +16,34 @@ git clone git@github.com:Sharif15/MiniLang.git
 cd MiniLang
 ```
 
-## Branching 
+## Testing & Running the Interpreter
+
+### Running Unit Tests:
+
+To run the given test suite use the following command: 
+
+```bash
+python -m unittest tests.test_interpreter
+```
+
+### Running the Interpreter:
+
+To run the interpreter on a MiniLang program file, use the following command format:
+
+```bash
+python -m main.py [--debug] <path_to_your_source_code_file>
+```
+
+The `--debug` flag enables the Debug/Display mode.
+
+Example run:
+```bash
+python main.py tests\test01_basic.mini
+```
+
+## Instructions for Development:
+
+### Branching 
 
 To start wroking create your own branch 
 
@@ -38,18 +65,10 @@ git checkout your-name
 
 and all other git operation is the same 
 
-# Warning !!!
+### Warning !!!
 
 Be sure to pull the latest branch often before you start your work to stay uptodate
 
 ```bash
 git pull origin main
-```
-
-# Testing 
-
-To run the given test suite use the following command: 
-
-```bash
-python -m unittest tests.test_interpreter
 ```

@@ -2,7 +2,8 @@ from src.shared.errors import MiniLangRuntimeError
 
 # Must import AST node classes; Please update if the ast_nodes are stored elsewhere!
 # Also update if the names for your classes are different from what they are here!
-from src.parser.parser import (
+from src.parser.ast_nodes import (
+    Program,
     Declaration,
     Assignment,
     PrintStatement,
@@ -103,10 +104,10 @@ class Interpreter:
         Raises MiniLangRuntimeError if type cannot be recognized.
         """
         if isinstance(node, IntegerLiteral):
-            return node["value"]
+            return node.value
 
         elif isinstance(node, RealLiteral):
-            return node["value"]
+            return node.value
 
         elif isinstance(node, Identifier):
             return self.evaluate_identifier(node)
@@ -141,7 +142,7 @@ class Interpreter:
             return left_value * right_value
 
         elif node.operator == "/":
-            if right_value == "0":
+            if right_value == 0:
                 raise MiniLangRuntimeError(
                     node.line,
                     "ZeroDivisionError"
@@ -161,5 +162,17 @@ class Interpreter:
         Retrieves the current runtime value of a variable.
         """
         variable = self.symbol_table.get_variable(node.name)
+        
+        if variable is None:
+            raise MiniLangRuntimeError(
+                node.line,
+                f"Variable '{node.name}' is not declared."
+            )
+
+        if not variable["initialized"]:
+            raise MiniLangRuntimeError(
+                node.line,
+                f"Variable '{node.name}' is not initialized."
+            )
 
         return variable["value"]

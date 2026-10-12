@@ -8,10 +8,18 @@ from src.shared.symbol_table import SymbolTable
 from src.semantics.semantic_analyzer import SemanticAnalyzer
 from src.interpreter.interpreter import Interpreter
 
+from src.shared.errors import (
+    MiniLangError,
+    LexicalError,
+    MiniLangSyntaxError,
+    SemanticError,
+    MiniLangRuntimeError,
+)
 class TestMiniLangInterpreter(unittest.TestCase):
     
     def run_interpreter(self, source_code):
         """Helper method to run source code through the entire pipeline and capture output."""
+        
         captured_output = io.StringIO()
         original_stdout = sys.stdout
         sys.stdout = captured_output
@@ -31,12 +39,13 @@ class TestMiniLangInterpreter(unittest.TestCase):
             interpreter = Interpreter(symbol_table)
             interpreter.execute(ast_root)
             
-            sys.stdout = original_stdout
             return captured_output.getvalue().strip(), None
             
-        except Exception as e:
+        except MiniLangError as error:
+            return None, str(error)
+
+        finally:
             sys.stdout = original_stdout
-            return None, str(e)
 
     def test_01_basic_declaration_and_assignment(self):
         # Covers: Basic variable declaration and assignment, int variables
@@ -70,6 +79,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Lexical error
         source = "int x; x = 10 @ 5;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Lexical Error", error)
 
@@ -77,6 +87,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Syntax error
         source = "int x x = 5;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Syntax Error", error)
 
@@ -84,6 +95,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Undeclared variable
         source = "x = 10; print(x);"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Semantic Error", error)
 
@@ -91,6 +103,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Duplicate declaration
         source = "int x; real x;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Semantic Error", error)
 
@@ -98,6 +111,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Type error
         source = "int count; count = 10.5;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Semantic Error", error)
 
@@ -105,6 +119,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Division by zero
         source = "int x; int y; x = 5; y = x / 0;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Runtime Error", error)
 
@@ -112,6 +127,7 @@ class TestMiniLangInterpreter(unittest.TestCase):
         # Covers: Uninitialized variable
         source = "int x; int y; y = x + 5;"
         output, error = self.run_interpreter(source)
+        self.assertIsNone(output)
         self.assertIsNotNone(error)
         self.assertIn("Semantic Error", error)
 
